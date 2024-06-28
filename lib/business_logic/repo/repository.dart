@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 class HomeRepo {
   static final Dio _dio = Dio();
   String baseUrl = 'https://mediq-graduation.onrender.com/api/v1/';
+  String baseUrlLocal = 'https://mediq-graduation.onrender.com/api/v1/';
 
   Future<dynamic> signin(String endpoint, String email, String password) async {
     try {
@@ -46,7 +47,49 @@ class HomeRepo {
       });
 
       final response = await _dio.post(
-        baseUrl + endpoint,
+        baseUrlLocal + endpoint,
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      return response.data;
+    } catch (error) {
+      throw error; // Rethrow the error to propagate it further if needed
+    }
+  }
+  Future<dynamic> braintumor(
+      String endpoint, String token, MultipartFile image) async {
+    try {
+      FormData formData = FormData.fromMap({
+        'image': image,
+      });
+
+      final response = await _dio.post(
+        baseUrlLocal + endpoint,
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      return response.data;
+    } catch (error) {
+      throw error; // Rethrow the error to propagate it further if needed
+    }
+  }
+  Future<dynamic> lungcancer(
+      String endpoint, String token, MultipartFile image) async {
+    try {
+      FormData formData = FormData.fromMap({
+        'image': image,
+      });
+
+      final response = await _dio.post(
+        baseUrlLocal + endpoint,
         data: formData,
         options: Options(
           headers: {
